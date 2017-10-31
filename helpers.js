@@ -56,6 +56,13 @@ function printTable(arr) {
 }
 
 function printEmptyMsg() {
-  const message = '<strong>Url without query string.</strong>';
-  return message;
+  return '<strong>Url without query string.</strong>';
 }
+
+module.exports = {
+  injectContent,
+  getSplitElement,
+  parseURL,
+  printEmptyMsg,
+  printTable,
+};
