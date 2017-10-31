@@ -47,12 +47,7 @@ function printTable(arr) {
           </tr>
       </thead>
       <tbody>
-        ${arr.reduce((acc, value) => acc.concat(`
-          <tr>
-            <td>${value.key}</td>
-            <td>${value.value}</td>
-          </tr>
-        `), '')}
+        ${tableContent}
       </tbody>
     </table>
   `;
