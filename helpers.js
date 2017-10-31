@@ -52,12 +52,10 @@ function printTable(arr) {
     </table>
   `;
 
-  injectContent(TABLE);
-
-  return true;
+  return TABLE;
 }
 
 function printEmptyMsg() {
   const message = '<strong>Url without query string.</strong>';
-  injectContent(message);
+  return message;
 }
