@@ -100,14 +100,3 @@ describe('printMessage()', () => {
     expect(helpers.printEmptyMsg()).toBe('<strong>Url without query string.</strong>');
   });
 });
-
-describe('injectContent()', () => {
-  test('element should contain new content', () => {
-    const newContent = '<strong>Lorem ipsum</strong>';
-    const elem = document.querySelector('#container');
-    console.log('>>>>', elem);
-    helpers.injectContent(newContent);
-
-    expect(elem.innerHTML).toBe(newContent);
-  });
-});
