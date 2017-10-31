@@ -1,0 +1,29 @@
+{
+  "name": "url-parser",
+  "version": "1.0.0",
+  "description": "Chrome plugin for parsing urls",
+  "main": "popup.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvignola/url-parser.git"
+  },
+  "author": "Nicolantonio Vignola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nvignola/url-parser/issues"
+  },
+  "homepage": "https://github.com/nvignola/url-parser#readme",
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^21.2.1"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  }
+}
