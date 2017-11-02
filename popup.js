@@ -1,3 +1,4 @@
+import helpers from './helpers';
 /**
  * Get the current URL.
  *
@@ -22,14 +23,14 @@ function getCurrentTabUrl(callback) {
 
     // A tab is a plain object that provides information about the tab.
     // See https://developer.chrome.com/extensions/tabs#type-Tab
-    const url = parseURL(tab.url);
+    const url = helpers.parseURL(tab.url);
 
-    const content = url.length ? printTable(url) : printEmptyMsg();
+    const content = url.length ? helpers.printTable(url) : helpers.printEmptyMsg();
     // tab.url is only available if the "activeTab" permission is declared.
     // If you want to see the URL of other tabs (e.g. after removing active:true
     // from |queryInfo|), then the "tabs" permission is required to see their
     // "url" properties.
-    injectContent(content);
+    helpers.injectContent(content);
 
     callback(url);
   });
