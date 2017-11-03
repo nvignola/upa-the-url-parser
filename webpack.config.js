@@ -15,9 +15,11 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          presets: ['env'],
-        },
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader',
+        include: __dirname,
       },
     ],
   },
@@ -33,6 +35,7 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'manifest.json', to: 'manifest.json' },
       { from: 'nav-star.png', to: 'nav-star.png' },
+      { from: 'styles.css', to: 'styles.css' },
     ]),
   ],
 };
