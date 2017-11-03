@@ -1,3 +1,6 @@
+import './pure.css';
+import './custom.css';
+
 import helpers from './helpers';
 /**
  * Get the current URL.

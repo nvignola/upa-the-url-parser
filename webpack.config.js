@@ -1,7 +1,20 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const htmlPlugin = new HtmlWebpackPlugin({
+  filename: 'popup.html',
+  template: 'popup.html',
+});
+const copyPlugin = new CopyWebpackPlugin([
+  { from: 'manifest.json', to: 'manifest.json' },
+  { from: 'nav-star.png', to: 'nav-star.png' },
+]);
+const extractCss = new ExtractTextPlugin({
+  filename: './styles.css',
+  allChunks: true,
+});
 
 module.exports = {
   entry: './popup.js',
@@ -10,16 +23,18 @@ module.exports = {
     filename: 'popup.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
-        include: __dirname,
+        use: extractCss.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
     ],
   },
@@ -28,14 +43,8 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-    new (HtmlWebpackPlugin)({
-      filename: 'popup.html',
-      template: 'popup.html',
-    }),
-    new CopyWebpackPlugin([
-      { from: 'manifest.json', to: 'manifest.json' },
-      { from: 'nav-star.png', to: 'nav-star.png' },
-      { from: 'styles.css', to: 'styles.css' },
-    ]),
+    htmlPlugin,
+    copyPlugin,
+    extractCss,
   ],
 };

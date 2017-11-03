@@ -1,0 +1,11 @@
+body {
+  margin: 10px;
+  white-space: nowrap;
+  width: 300px;
+}
+
+#container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
