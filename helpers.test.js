@@ -1,4 +1,15 @@
+import mountDOM from 'jsdom-mount';
 import helpers from './helpers';
+
+let TARGET_EL = null;
+let DOM = null;
+
+beforeAll(() => {
+  DOM = mountDOM(`
+    <div id="container"></div>
+  `);
+  TARGET_EL = document.querySelector('#container');
+});
 
 describe('getSplitElement()', () => {
   test('empty string', () => {
@@ -98,5 +109,18 @@ describe('printTable()', () => {
 describe('printMessage()', () => {
   test('has to return a string', () => {
     expect(helpers.printEmptyMsg()).toBe('<strong>Url without query string.</strong>');
+  });
+});
+
+describe('injectContent()', () => {
+  test('target element should has empty content', () => {
+    expect(TARGET_EL.innerHTML.length).toBe(0);
+  });
+
+  test('target element should has new content', () => {
+    const newContent = '<strong id="new-element">Test</strong>';
+    helpers.injectContent(newContent);
+
+    expect(document.querySelector('#container').outerHTML.length).toBe(TARGET_EL.outerHTML.length);
   });
 });
