@@ -9,7 +9,7 @@ const htmlPlugin = new HtmlWebpackPlugin({
 });
 const copyPlugin = new CopyWebpackPlugin([
   { from: 'manifest.json', to: 'manifest.json' },
-  { from: 'nav-star.png', to: 'nav-star.png' },
+  { from: 'icon.png', to: 'icon.png' },
 ]);
 const extractCss = new ExtractTextPlugin({
   filename: './styles.css',
