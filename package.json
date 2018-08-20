@@ -26,17 +26,17 @@
     "babel-preset-env": "^1.6.0",
     "codecov": "^3.0.1",
     "copy-webpack-plugin": "^4.5.1",
-    "css-loader": "^0.28.11",
+    "css-loader": "^1.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-import-resolver-webpack": "^0.8.4",
     "eslint-plugin-import": "^2.11.0",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^21.2.1",
     "jsdom-mount": "^0.1.0",
-    "style-loader": "^0.19.1",
-    "webpack": "^3.11.0"
+    "mini-css-extract-plugin": "^0.4.1",
+    "webpack": "^4.16.5",
+    "webpack-command": "^0.4.1"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
