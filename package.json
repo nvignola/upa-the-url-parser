@@ -5,7 +5,8 @@
   "main": "popup.js",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf dist && webpack"
+    "build": "rm -rf dist && webpack",
+    "build:watch": "rm -rf dist && webpack --watch"
   },
   "repository": {
     "type": "git",
