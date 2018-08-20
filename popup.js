@@ -2,6 +2,7 @@ import './pure.css';
 import './custom.css';
 
 import helpers from './helpers';
+
 /**
  * Get the current URL.
  *
@@ -26,7 +27,9 @@ function getCurrentTabUrl(callback) {
 
     // A tab is a plain object that provides information about the tab.
     // See https://developer.chrome.com/extensions/tabs#type-Tab
-    const url = helpers.parseURL(tab.url);
+    const urlInfo = helpers.urlInfo(tab.url)();
+    const url = helpers.parseURL(urlInfo);
+    console.info(urlInfo);
 
     const content = url.length ? helpers.printTable(url) : helpers.printEmptyMsg();
     // tab.url is only available if the "activeTab" permission is declared.
@@ -35,16 +38,27 @@ function getCurrentTabUrl(callback) {
     // "url" properties.
     helpers.injectContent(content);
 
-    callback(url);
+    callback(urlInfo);
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  getCurrentTabUrl((url) => {
+  getCurrentTabUrl((urlInfo) => {
     const button = document.querySelector('#button');
 
     button.addEventListener('click', (evt) => {
-      console.log('click');
+      const params = document.querySelectorAll('[refs="params"]');
+      const newTuples = [];
+
+      params.forEach((tuple) => {
+        const { key } = tuple.dataset;
+        const { value } = tuple;
+        newTuples.push(`${key}=${value}`);
+      });
+
+      chrome.tabs.update({
+        url: helpers.getNewRoute(urlInfo, newTuples),
+      });
     });
   });
 });

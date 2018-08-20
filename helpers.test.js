@@ -3,12 +3,14 @@ import helpers from './helpers';
 
 let TARGET_EL = null;
 let DOM = null;
+let URL_INFO = null;
 
 beforeAll(() => {
   DOM = mountDOM(`
     <div id="container"></div>
   `);
   TARGET_EL = document.querySelector('#container');
+  URL_INFO = helpers.urlInfo();
 });
 
 describe('getSplitElement()', () => {
