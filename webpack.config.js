@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const htmlPlugin = new HtmlWebpackPlugin({
   filename: 'popup.html',
@@ -11,16 +11,20 @@ const copyPlugin = new CopyWebpackPlugin([
   { from: 'manifest.json', to: 'manifest.json' },
   { from: 'icon.png', to: 'icon.png' },
 ]);
-const extractCss = new ExtractTextPlugin({
-  filename: './styles.css',
-  allChunks: true,
+const extractCss = new MiniCssExtractPlugin({
+  filename: '[name].css',
+  chunkFilename: '[id].css',
 });
 
 module.exports = {
   entry: './popup.js',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'popup.js',
+  },
+  optimization: {
+    minimize: true,
   },
   module: {
     rules: [
@@ -31,10 +35,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: extractCss.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
-        }),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+        ],
       },
     ],
   },
