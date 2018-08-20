@@ -31,6 +31,7 @@ bower_components
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
+dist/
 
 # Dependency directories
 node_modules/
@@ -43,6 +44,7 @@ typings/
 .npm
 .vscode
 node_modules
+.DS_Store
 
 # Optional eslint cache
 .eslintcache
@@ -52,6 +54,7 @@ node_modules
 
 # Output of 'npm pack'
 *.tgz
+*.zip
 
 # Yarn Integrity file
 .yarn-integrity
