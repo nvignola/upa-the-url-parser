@@ -10,7 +10,7 @@ beforeAll(() => {
     <div id="container"></div>
   `);
   TARGET_EL = document.querySelector('#container');
-  URL_INFO = helpers.urlInfo();
+  URL_INFO = helpers.urlInfo('http://www.abc.com#asd=1?foo=3')();
 });
 
 describe('getSplitElement()', () => {
@@ -31,18 +31,15 @@ describe('getSplitElement()', () => {
 });
 
 describe('parseUrl()', () => {
-  test('empty string', () => {
-    const url = '';
-    expect(helpers.parseURL(url)).toEqual([]);
-  });
-
   test('url without query string', () => {
     const url = 'www.foo.url/home';
-    expect(helpers.parseURL(url)).toEqual([]);
+    const urlInfo = helpers.urlInfo(url)();
+    expect(helpers.parseURL(urlInfo)).toEqual([]);
   });
 
   test('url with query string using "?"', () => {
     const url = 'www.foo.url/home?param1=1&param2=2&param3=3';
+    const urlInfo = helpers.urlInfo(url)();
     const result = [
       {
         key: 'param1',
@@ -58,7 +55,7 @@ describe('parseUrl()', () => {
       },
     ];
 
-    expect(helpers.parseURL(url)).toEqual(result);
+    expect(helpers.parseURL(urlInfo)).toEqual(result);
   });
 });
 
@@ -73,17 +70,23 @@ describe('printTable()', () => {
             </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr data-index="0">
             <td>param1</td>
-            <td>1</td>
+            <td>
+              <input refs="params" style="width: 100%" data-key="param1" value="1" type="textbox">
+            </td>
           </tr>
-          <tr>
+          <tr data-index="1">
             <td>param2</td>
-            <td>2</td>
-          </tr>
-          <tr>
+            <td>
+            <input refs="params" style="width: 100%" data-key="param2" value="2" type="textbox">
+            </td>
+            </tr>
+          <tr data-index="2">
             <td>param3</td>
-            <td>3</td>
+            <td>
+              <input refs="params" style="width: 100%" data-key="param3" value="3" type="textbox">
+            </td>
           </tr>
         </tbody>
       </table>

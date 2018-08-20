@@ -10,10 +10,11 @@ function getSplitElement(url) {
   return SPLIT_IDENTIFIERS.find(identifier => url.includes(identifier));
 }
 
-function parseURL(urlObj) {
+function parseURL(urlObj = {}) {
   const QS_DIVIDER = '&';
   const TUPLE_DIVIDER = '=';
-  const arrKeyValue = urlObj.info.queryString ? decodeURI(urlObj.info.queryString)
+  const { info: { queryString } } = urlObj;
+  const arrKeyValue = queryString ? decodeURI(queryString)
     .split(QS_DIVIDER)
     .map((tuple) => {
       const [key, value] = tuple.split(TUPLE_DIVIDER);
