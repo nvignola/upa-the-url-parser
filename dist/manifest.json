@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Url Parser",
-  "description": "This extension allows the user to parse the url of the current page.",
+  "description": "Url parser that works with #. Useful for SPA. Visualize and basic editing.",
   "version": "1.0",
 
   "browser_action": {
