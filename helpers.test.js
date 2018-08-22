@@ -90,6 +90,7 @@ describe('printTable()', () => {
           </tr>
         </tbody>
       </table>
+      <button id="button" class="update-button pure-button pure-button-primary">Update url</button>
     `;
 
     const rawData = [

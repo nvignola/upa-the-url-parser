@@ -27,38 +27,40 @@ function getCurrentTabUrl(callback) {
 
     // A tab is a plain object that provides information about the tab.
     // See https://developer.chrome.com/extensions/tabs#type-Tab
-    const urlInfo = helpers.urlInfo(tab.url)();
-    const url = helpers.parseURL(urlInfo);
-    console.info(urlInfo);
 
-    const content = url.length ? helpers.printTable(url) : helpers.printEmptyMsg();
     // tab.url is only available if the "activeTab" permission is declared.
     // If you want to see the URL of other tabs (e.g. after removing active:true
     // from |queryInfo|), then the "tabs" permission is required to see their
     // "url" properties.
-    helpers.injectContent(content);
 
-    callback(urlInfo);
+    callback(tab.url);
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  getCurrentTabUrl((urlInfo) => {
+  getCurrentTabUrl((tabUrl) => {
+    const urlInfo = helpers.urlInfo(tabUrl)();
+    const url = helpers.parseURL(urlInfo);
+    const content = url.length ? helpers.printTable(url) : helpers.printEmptyMsg();
+    helpers.injectContent(content);
+
     const button = document.querySelector('#button');
 
-    button.addEventListener('click', (evt) => {
-      const params = document.querySelectorAll('[refs="params"]');
-      const newTuples = [];
+    if (button) {
+      button.addEventListener('click', () => {
+        const params = document.querySelectorAll('[refs="params"]');
+        const newTuples = [];
 
-      params.forEach((tuple) => {
-        const { key } = tuple.dataset;
-        const { value } = tuple;
-        newTuples.push(`${key}=${value}`);
-      });
+        params.forEach((tuple) => {
+          const { key } = tuple.dataset;
+          const { value } = tuple;
+          newTuples.push(`${key}=${value}`);
+        });
 
-      chrome.tabs.update({
-        url: helpers.getNewRoute(urlInfo, newTuples),
+        chrome.tabs.update({
+          url: helpers.getNewRoute(urlInfo, newTuples),
+        });
       });
-    });
+    }
   });
 });
