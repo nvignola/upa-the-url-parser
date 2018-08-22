@@ -50,6 +50,7 @@ function printTable(arr) {
         ${tableContent}
       </tbody>
     </table>
+    <button id="button" class="update-button pure-button pure-button-primary">Update url</button>
   `;
 
   return TABLE;
