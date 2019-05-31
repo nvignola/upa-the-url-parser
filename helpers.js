@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-undef
+const { document } = window;
+
 function injectContent(content) {
   document.querySelector('#container').innerHTML = content;
 }

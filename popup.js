@@ -3,6 +3,9 @@ import './custom.css';
 
 import helpers from './helpers';
 
+// eslint-disable-next-line no-undef
+const { document } = window;
+
 /**
  * Get the current URL.
  *
@@ -73,10 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (e.target.matches('.remove')) {
         const row = container.querySelector(
-          `tr[data-index="${e.target.dataset.index}"]`
+          `tr[data-index="${e.target.dataset.index}"]`,
         );
-        row && row.parentElement.removeChild(row);
+        if (row) {
+          row.parentElement.removeChild(row);
+        }
       }
-    })
+    });
   });
 });
