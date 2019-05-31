@@ -66,6 +66,7 @@ describe('printTable()', () => {
         <thead>
             <tr>
               <th>Parameter</th>
+              <th>&nbsp;</th>
               <th>Value</th>
             </tr>
         </thead>
@@ -73,24 +74,35 @@ describe('printTable()', () => {
           <tr data-index="0">
             <td>param1</td>
             <td>
-              <input refs="params" style="width: 100%" data-key="param1" value="1" type="textbox">
+              <button title="Copy" class="pure-button btn-small copy" data-copy="1">&copy;</button>
+              <button title="Remove" class="pure-button btn-small remove" data-index="0">-</button>
+            </td>
+            <td>
+              <input refs="params" style="width: 100%" data-key="param1" value="1" type="text">
             </td>
           </tr>
           <tr data-index="1">
             <td>param2</td>
             <td>
-            <input refs="params" style="width: 100%" data-key="param2" value="2" type="textbox">
+              <button title="Copy" class="pure-button btn-small copy" data-copy="2">&copy;</button>
+              <button title="Remove" class="pure-button btn-small remove" data-index="1">-</button>
+            </td>
+            <td>
+            <input refs="params" style="width: 100%" data-key="param2" value="2" type="text">
             </td>
             </tr>
           <tr data-index="2">
             <td>param3</td>
             <td>
-              <input refs="params" style="width: 100%" data-key="param3" value="3" type="textbox">
+              <button title="Copy" class="pure-button btn-small copy" data-copy="3">&copy;</button>
+              <button title="Remove" class="pure-button btn-small remove" data-index="2">-</button>
+            </td>
+            <td>
+              <input refs="params" style="width: 100%" data-key="param3" value="3" type="text">
             </td>
           </tr>
         </tbody>
       </table>
-      <button id="button" class="update-button pure-button pure-button-primary">Update url</button>
     `;
 
     const rawData = [

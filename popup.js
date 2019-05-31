@@ -44,10 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = url.length ? helpers.printTable(url) : helpers.printEmptyMsg();
     helpers.injectContent(content);
 
-    const button = document.querySelector('#button');
+    const container = document.querySelector('#container');
+    const updateButton = document.querySelector('#updateButton');
+    const copyButton = document.querySelector('#copyButton');
 
-    if (button) {
-      button.addEventListener('click', () => {
+    if (copyButton) {
+      copyButton.addEventListener('click', () => helpers.copy(tabUrl));
+    }
+    if (updateButton) {
+      updateButton.addEventListener('click', () => {
         const params = document.querySelectorAll('[refs="params"]');
         const newTuples = [];
 
@@ -62,5 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+    container.addEventListener('click', (e) => {
+      if (e.target.matches('.copy')) {
+        helpers.copy(e.target.dataset.copy);
+      }
+      if (e.target.matches('.remove')) {
+        const row = container.querySelector(
+          `tr[data-index="${e.target.dataset.index}"]`
+        );
+        row && row.parentElement.removeChild(row);
+      }
+    })
   });
 });
