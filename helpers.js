@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-undef
+const { document } = window;
+
 function injectContent(content) {
   document.querySelector('#container').innerHTML = content;
 }
@@ -33,7 +36,11 @@ function printTable(arr) {
     <tr data-index="${index}">
       <td>${value.key}</td>
       <td>
-        <input refs="params" style="width: 100%" data-key="${value.key}" value="${value.value}" type="textbox">
+        <button title="Copy" class="pure-button btn-small copy" data-copy="${value.value}">&copy;</button>
+        <button title="Remove" class="pure-button btn-small remove" data-index="${index}">-</button>
+      </td>
+      <td>
+        <input refs="params" style="width: 100%" data-key="${value.key}" value="${value.value}" type="text">
       </td>
     </tr>
   `), '');
@@ -43,6 +50,7 @@ function printTable(arr) {
       <thead>
           <tr>
             <th>Parameter</th>
+            <th>&nbsp;</th>
             <th>Value</th>
           </tr>
       </thead>
@@ -50,7 +58,6 @@ function printTable(arr) {
         ${tableContent}
       </tbody>
     </table>
-    <button id="button" class="update-button pure-button pure-button-primary">Update url</button>
   `;
 
   return TABLE;
@@ -80,11 +87,38 @@ function urlInfo(plainUrl) {
   });
 }
 
+const copy = (text) => {
+  // Create a textbox field where we can insert text to.
+  const copyFrom = document.createElement('textarea');
+
+  // Set the text content to be the text you wished to copy.
+  copyFrom.textContent = text;
+
+  // Append the textbox field into the body as a child.
+  // "execCommand()" only works when there exists selected text, and the text is inside
+  // document.body (meaning the text is part of a valid rendered HTML element).
+  document.body.appendChild(copyFrom);
+
+  // Select all the text!
+  copyFrom.select();
+
+  // Execute command
+  document.execCommand('copy');
+
+  // (Optional) De-select the text using blur().
+  copyFrom.blur();
+
+  // Remove the textbox field from the document.body, so no other JavaScript nor
+  // other elements can get access to this.
+  document.body.removeChild(copyFrom);
+};
+
 function getNewRoute(urlObj, newTuples) {
   return `${urlObj.info.pathname}${urlObj.info.urlDivider}${newTuples.join('&')}`;
 }
 
 export default {
+  copy,
   injectContent,
   getSplitElement,
   parseURL,

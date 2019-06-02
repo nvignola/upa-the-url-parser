@@ -11,12 +11,92 @@ body {
   flex-direction: column;
 }
 
+.title {
+  max-width: calc(100% - 200px);
+  text-overflow: ellepsis;
+  overflow: hidden;
+}
+
+.clearfix:after {
+  clear: both;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
 table {
   margin-top: 1em;
+  margin-bottom: 1em;
   width: 100%;
+}
+table.url-parts th {
+  text-align: left;
+}
+button svg {
+  height: 1em;
+  width: 1em;
+}
+button svg g{
+  fill: #fff;
+  stroke-width: 2px;
 }
 
 .update-button {
-  display: block;
-  margin: 1em auto;
+  display: inline;
 }
+
+#url {
+  max-width: 90%;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+#buttons {
+  float: right;
+}
+
+.btn-success,
+.btn-error,
+.btn-warning,
+.btn-secondary {
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+  background: rgb(28, 184, 65); /* this is a green */
+}
+
+.btn-error {
+  background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.btn-warning {
+  background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.btn-secondary {
+  background: rgb(66, 184, 221); /* this is a light blue */
+}
+.btn-xsmall {
+  font-size: 70%;
+}
+
+.btn-small {
+  font-size: 85%;
+}
+
+.btn-large {
+  font-size: 110%;
+}
+
+.btn-xlarge {
+  font-size: 125%;
+}
+
