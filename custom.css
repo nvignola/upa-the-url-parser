@@ -38,7 +38,7 @@ button svg {
   height: 1em;
   width: 1em;
 }
-button svg g{
+button svg g {
   fill: #fff;
   stroke-width: 2px;
 }
@@ -60,6 +60,19 @@ button svg g{
   float: right;
 }
 
+.actions-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-action {
+  stroke: white;
+  font-size: 1.25em;
+}
+
+/*
+  Buttons
+  ------------------------ */
 .btn-success,
 .btn-error,
 .btn-warning,
@@ -99,4 +112,3 @@ button svg g{
 .btn-xlarge {
   font-size: 125%;
 }
-
