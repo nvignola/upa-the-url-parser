@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTuples = [];
 
         params.forEach((tuple) => {
-          const { key } = tuple.dataset;
+          const key = document.querySelector(`[ref="js-${tuple.dataset.key}"]`).value;
           const { value } = tuple;
           newTuples.push(`${key}=${value}`);
         });
@@ -75,9 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         helpers.copy(e.target.dataset.copy);
       }
       if (e.target.matches('.remove')) {
-        const row = container.querySelector(
-          `tr[data-index="${e.target.dataset.index}"]`,
-        );
+        const row = container.querySelector(`tr[data-index="${e.target.dataset.index}"]`);
         if (row) {
           row.parentElement.removeChild(row);
         }

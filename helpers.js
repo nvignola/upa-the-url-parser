@@ -1,5 +1,8 @@
+/* eslint-disable implicit-arrow-linebreak */
 // eslint-disable-next-line no-undef
 const { document } = window;
+const copyIcon = require('./icons/copy.svg');
+const deleteIcon = require('./icons/dustbin.svg');
 
 function injectContent(content) {
   document.querySelector('#container').innerHTML = content;
@@ -16,42 +19,56 @@ function getSplitElement(url) {
 function parseURL(urlObj = {}) {
   const QS_DIVIDER = '&';
   const TUPLE_DIVIDER = '=';
-  const { info: { queryString } } = urlObj;
-  const arrKeyValue = queryString ? decodeURI(queryString)
-    .split(QS_DIVIDER)
-    .map((tuple) => {
-      const [key, value] = tuple.split(TUPLE_DIVIDER);
+  const {
+    info: { queryString },
+  } = urlObj;
+  const arrKeyValue = queryString
+    ? decodeURI(queryString)
+      .split(QS_DIVIDER)
+      .map((tuple) => {
+        const [key, value] = tuple.split(TUPLE_DIVIDER);
 
-      return {
-        key,
-        value,
-      };
-    }) : [];
+        return {
+          key,
+          value,
+        };
+      })
+    : [];
 
   return arrKeyValue;
 }
 
 function printTable(arr) {
-  const tableContent = arr.reduce((acc, value, index) => acc.concat(`
-    <tr data-index="${index}">
-      <td>${value.key}</td>
-      <td>
-        <button title="Copy" class="pure-button btn-small copy" data-copy="${value.value}">&copy;</button>
-        <button title="Remove" class="pure-button btn-small remove" data-index="${index}">-</button>
-      </td>
-      <td>
-        <input refs="params" style="width: 100%" data-key="${value.key}" value="${value.value}" type="text">
-      </td>
-    </tr>
-  `), '');
+  const tableContent = arr.reduce(
+    (acc, value, index) =>
+      acc.concat(`
+      <tr data-index="${index}">
+        <td>
+        <input ref="js-${value.key}" style="width: 100%" value="${value.key}" type="text">
+        </td>
+        <td>
+        <input refs="params" style="width: 100%" data-key="${value.key}" value="${
+  value.value
+}" type="text">
+          </td>
+        <td class="actions-container">
+          <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${
+    value.key
+  }=${value.value}`}">${copyIcon}</button>
+          <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${deleteIcon}</button>
+        </td>
+      </tr>
+  `),
+    '',
+  );
 
   const TABLE = `
     <table id="url-parsed-table" class="pure-table pure-table-striped">
       <thead>
           <tr>
             <th>Parameter</th>
-            <th>&nbsp;</th>
             <th>Value</th>
+            <th>Actions</th>
           </tr>
       </thead>
       <tbody>
