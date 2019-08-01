@@ -1,8 +1,8 @@
+import iconsRender from './iconsRender';
+
 /* eslint-disable implicit-arrow-linebreak */
 // eslint-disable-next-line no-undef
 const { document } = window;
-const copyIcon = require('./icons/copy.svg');
-const deleteIcon = require('./icons/dustbin.svg');
 
 function injectContent(content) {
   document.querySelector('#container').innerHTML = content;
@@ -54,8 +54,8 @@ function printTable(arr) {
         <td class="actions-container">
           <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${
     value.key
-  }=${value.value}`}">${copyIcon}</button>
-          <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${deleteIcon}</button>
+  }=${value.value}`}">${iconsRender.renderCopyIcon()}</button>
+          <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${iconsRender.renderDeleteIcon()}</button>
         </td>
       </tr>
   `),
