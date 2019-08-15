@@ -1,23 +1,21 @@
-import mountDOM from 'jsdom-mount';
-import helpers from '~/src/helpers';
+import initHelpers from '~/src/helpers';
 import { JSDOM } from 'jsdom';
 
 let TARGET_EL = null;
-let DOM = null;
 let URL_INFO = null;
-let document = null;
 
-helpers.injectContent = jest.fn((content) => {
-  document.querySelector('#container').innerHTML = content;
-});
+let helpers = null;
 
 beforeAll(() => {
-  DOM = new JSDOM(`
-    <div id="container"></div>
+  const {
+    window: { document },
+  } = new JSDOM(`
+  <div id="container"></div>
   `);
-  TARGET_EL = DOM.window.document.querySelector('#container');
+
+  helpers = initHelpers(document);
+  TARGET_EL = document.querySelector('#container');
   URL_INFO = helpers.urlInfo('http://www.abc.com#asd=1?foo=3')();
-  document = DOM.window.document;
 });
 
 describe('getSplitElement()', () => {
@@ -106,6 +104,15 @@ describe('injectContent()', () => {
     const newContent = '<strong id="new-element">Test</strong>';
     helpers.injectContent(newContent);
 
-    expect(document.querySelector('#container').outerHTML.length).toBe(TARGET_EL.outerHTML.length);
+    expect(TARGET_EL.innerHTML).toBe(newContent);
+  });
+});
+
+describe('update url', () => {
+  test('when new tuple is provided', () => {
+    const newTuples = ['foo=1', 'new=1', 'bar=2'];
+    const newUrl = helpers.getNewRoute(URL_INFO, newTuples);
+
+    expect(newUrl).toEqual('http://www.abc.com#asd=1?foo=1&new=1&bar=2');
   });
 });

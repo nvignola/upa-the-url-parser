@@ -1,10 +1,11 @@
 import './pure.css';
 import './custom.css';
 
-import helpers from './helpers';
+import initHelpers from './helpers';
 
 // eslint-disable-next-line no-undef
 const { document } = window;
+const helpers = initHelpers(document);
 
 /**
  * Get the current URL.
