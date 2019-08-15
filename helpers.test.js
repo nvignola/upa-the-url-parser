@@ -1,3 +1,4 @@
+/* eslint-disable */
 import initHelpers from '~/src/helpers';
 import { JSDOM } from 'jsdom';
 
@@ -116,3 +117,4 @@ describe('update url', () => {
     expect(newUrl).toEqual('http://www.abc.com#asd=1?foo=1&new=1&bar=2');
   });
 });
+/* eslint-enable */
