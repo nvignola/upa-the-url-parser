@@ -1,14 +1,20 @@
-import mountDOM from 'jsdom-mount';
-import helpers from './helpers';
+/* eslint-disable */
+import initHelpers from '~/src/helpers';
+import { JSDOM } from 'jsdom';
 
 let TARGET_EL = null;
-let DOM = null;
 let URL_INFO = null;
 
+let helpers = null;
+
 beforeAll(() => {
-  DOM = mountDOM(`
-    <div id="container"></div>
+  const {
+    window: { document },
+  } = new JSDOM(`
+  <div id="container"></div>
   `);
+
+  helpers = initHelpers(document);
   TARGET_EL = document.querySelector('#container');
   URL_INFO = helpers.urlInfo('http://www.abc.com#asd=1?foo=3')();
 });
@@ -62,47 +68,7 @@ describe('parseUrl()', () => {
 describe('printTable()', () => {
   test('results from url with query string', () => {
     const table = `
-      <table id="url-parsed-table" class="pure-table pure-table-striped">
-        <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>&nbsp;</th>
-              <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr data-index="0">
-            <td>param1</td>
-            <td>
-              <button title="Copy" class="pure-button btn-small copy" data-copy="1">&copy;</button>
-              <button title="Remove" class="pure-button btn-small remove" data-index="0">-</button>
-            </td>
-            <td>
-              <input refs="params" style="width: 100%" data-key="param1" value="1" type="text">
-            </td>
-          </tr>
-          <tr data-index="1">
-            <td>param2</td>
-            <td>
-              <button title="Copy" class="pure-button btn-small copy" data-copy="2">&copy;</button>
-              <button title="Remove" class="pure-button btn-small remove" data-index="1">-</button>
-            </td>
-            <td>
-            <input refs="params" style="width: 100%" data-key="param2" value="2" type="text">
-            </td>
-            </tr>
-          <tr data-index="2">
-            <td>param3</td>
-            <td>
-              <button title="Copy" class="pure-button btn-small copy" data-copy="3">&copy;</button>
-              <button title="Remove" class="pure-button btn-small remove" data-index="2">-</button>
-            </td>
-            <td>
-              <input refs="params" style="width: 100%" data-key="param3" value="3" type="text">
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <tableid="url-parsed-table"class="pure-tablepure-table-striped"><thead><tr><th>Parameter</th><th>Value</th><th>Actions</th></tr></thead><tbody><trdata-index="0"><td><inputref="js-param1"style="width:100%"value="param1"type="text"></td><td><inputrefs="params"style="width:100%"data-key="param1"value="1"type="text"></td><tdclass="actions-container"><buttontitle="Copy[parameter]=[value]tuple"class="pure-buttoncopybtn-successbtn-action"data-copy=param1=1">file-stub</button><buttontitle="Removeparameter"class="pure-buttonremovebtn-errorbtn-action"data-index="0">file-stub</button></td></tr><trdata-index="1"><td><inputref="js-param2"style="width:100%"value="param2"type="text"></td><td><inputrefs="params"style="width:100%"data-key="param2"value="2"type="text"></td><tdclass="actions-container"><buttontitle="Copy[parameter]=[value]tuple"class="pure-buttoncopybtn-successbtn-action"data-copy=param2=2">file-stub</button><buttontitle="Removeparameter"class="pure-buttonremovebtn-errorbtn-action"data-index="1">file-stub</button></td></tr><trdata-index="2"><td><inputref="js-param3"style="width:100%"value="param3"type="text"></td><td><inputrefs="params"style="width:100%"data-key="param3"value="3"type="text"></td><tdclass="actions-container"><buttontitle="Copy[parameter]=[value]tuple"class="pure-buttoncopybtn-successbtn-action"data-copy=param3=3">file-stub</button><buttontitle="Removeparameter"class="pure-buttonremovebtn-errorbtn-action"data-index="2">file-stub</button></td></tr></tbody></table>
     `;
 
     const rawData = [
@@ -139,6 +105,16 @@ describe('injectContent()', () => {
     const newContent = '<strong id="new-element">Test</strong>';
     helpers.injectContent(newContent);
 
-    expect(document.querySelector('#container').outerHTML.length).toBe(TARGET_EL.outerHTML.length);
+    expect(TARGET_EL.innerHTML).toBe(newContent);
   });
 });
+
+describe('update url', () => {
+  test('when new tuple is provided', () => {
+    const newTuples = ['foo=1', 'new=1', 'bar=2'];
+    const newUrl = helpers.getNewRoute(URL_INFO, newTuples);
+
+    expect(newUrl).toEqual('http://www.abc.com#asd=1?foo=1&new=1&bar=2');
+  });
+});
+/* eslint-enable */

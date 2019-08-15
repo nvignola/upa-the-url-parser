@@ -42,15 +42,15 @@ module.exports = {
           'css-loader',
         ],
       },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+      },
     ],
   },
   stats: {
     colors: true,
   },
   devtool: 'source-map',
-  plugins: [
-    htmlPlugin,
-    copyPlugin,
-    extractCss,
-  ],
+  plugins: [htmlPlugin, copyPlugin, extractCss],
 };

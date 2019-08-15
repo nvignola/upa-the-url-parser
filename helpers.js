@@ -1,57 +1,76 @@
+import iconsRender from './iconsRender';
+
+/* eslint-disable implicit-arrow-linebreak */
 // eslint-disable-next-line no-undef
-const { document } = window;
 
-function injectContent(content) {
-  document.querySelector('#container').innerHTML = content;
-}
+export default (document) => {
+  const internalDocument = document;
 
-function getSplitElement(url) {
-  const SPLIT_IDENTIFIERS = ['?', '#'];
+  const injectContent = (content) => {
+    internalDocument.querySelector('#container').innerHTML = content;
+  };
 
-  // TODO
-  // - Implement custom identifier
-  return SPLIT_IDENTIFIERS.find(identifier => url.includes(identifier));
-}
+  const getSplitElement = (url) => {
+    const SPLIT_IDENTIFIERS = ['?', '#'];
 
-function parseURL(urlObj = {}) {
-  const QS_DIVIDER = '&';
-  const TUPLE_DIVIDER = '=';
-  const { info: { queryString } } = urlObj;
-  const arrKeyValue = queryString ? decodeURI(queryString)
-    .split(QS_DIVIDER)
-    .map((tuple) => {
-      const [key, value] = tuple.split(TUPLE_DIVIDER);
+    // TODO
+    // - Implement custom identifier
+    return SPLIT_IDENTIFIERS.find(identifier => url.includes(identifier));
+  };
 
-      return {
-        key,
-        value,
-      };
-    }) : [];
+  const parseURL = (urlObj = {}) => {
+    const QS_DIVIDER = '&';
+    const TUPLE_DIVIDER = '=';
+    const {
+      info: { queryString },
+    } = urlObj;
+    const arrKeyValue = queryString
+      ? decodeURI(queryString)
+        .split(QS_DIVIDER)
+        .map((tuple) => {
+          const [key, value] = tuple.split(TUPLE_DIVIDER);
 
-  return arrKeyValue;
-}
+          return {
+            key,
+            value,
+          };
+        })
+      : [];
 
-function printTable(arr) {
-  const tableContent = arr.reduce((acc, value, index) => acc.concat(`
-    <tr data-index="${index}">
-      <td>${value.key}</td>
-      <td>
-        <button title="Copy" class="pure-button btn-small copy" data-copy="${value.value}">&copy;</button>
-        <button title="Remove" class="pure-button btn-small remove" data-index="${index}">-</button>
-      </td>
-      <td>
-        <input refs="params" style="width: 100%" data-key="${value.key}" value="${value.value}" type="text">
-      </td>
-    </tr>
-  `), '');
+    return arrKeyValue;
+  };
 
-  const TABLE = `
+  const printTable = (arr) => {
+    const tableContent = arr.reduce(
+      (acc, value, index) =>
+        acc.concat(`
+      <tr data-index="${index}">
+        <td>
+        <input ref="js-${value.key}" style="width: 100%" value="${value.key}" type="text">
+        </td>
+        <td>
+        <input refs="params" style="width: 100%" data-key="${value.key}" value="${
+  value.value
+}" type="text">
+          </td>
+        <td class="actions-container">
+          <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${
+    value.key
+  }=${value.value}`}">${iconsRender.renderCopyIcon()}</button>
+          <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${iconsRender.renderDeleteIcon()}</button>
+        </td>
+      </tr>
+  `),
+      '',
+    );
+
+    const TABLE = `
     <table id="url-parsed-table" class="pure-table pure-table-striped">
       <thead>
           <tr>
             <th>Parameter</th>
-            <th>&nbsp;</th>
             <th>Value</th>
+            <th>Actions</th>
           </tr>
       </thead>
       <tbody>
@@ -60,70 +79,68 @@ function printTable(arr) {
     </table>
   `;
 
-  return TABLE;
-}
-
-function printEmptyMsg() {
-  return '<strong>Url without query string.</strong>';
-}
-
-function urlInfo(plainUrl) {
-  const SPLIT_IDENTIFIERS = ['?', '#'];
-
-  // TODO
-  // - Implement custom identifier
-  const qs = SPLIT_IDENTIFIERS.find(identifier => plainUrl.includes(identifier));
-  const [pathname, queryString] = plainUrl.split(qs);
-
-  const info = {
-    url: plainUrl,
-    pathname,
-    queryString,
-    urlDivider: qs,
+    return TABLE;
   };
 
-  return () => ({
-    info,
-  });
-}
+  const printEmptyMsg = () => '<strong>Url without query string.</strong>';
 
-const copy = (text) => {
-  // Create a textbox field where we can insert text to.
-  const copyFrom = document.createElement('textarea');
+  const urlInfo = (plainUrl) => {
+    const SPLIT_IDENTIFIERS = ['?', '#'];
 
-  // Set the text content to be the text you wished to copy.
-  copyFrom.textContent = text;
+    // TODO
+    // - Implement custom identifier
+    const qs = SPLIT_IDENTIFIERS.find(identifier => plainUrl.includes(identifier));
+    const [pathname, queryString] = plainUrl.split(qs);
 
-  // Append the textbox field into the body as a child.
-  // "execCommand()" only works when there exists selected text, and the text is inside
-  // document.body (meaning the text is part of a valid rendered HTML element).
-  document.body.appendChild(copyFrom);
+    const info = {
+      url: plainUrl,
+      pathname,
+      queryString,
+      urlDivider: qs,
+    };
 
-  // Select all the text!
-  copyFrom.select();
+    return () => ({
+      info,
+    });
+  };
 
-  // Execute command
-  document.execCommand('copy');
+  const copy = (text) => {
+    // Create a textbox field where we can insert text to.
+    const copyFrom = internalDocument.createElement('textarea');
 
-  // (Optional) De-select the text using blur().
-  copyFrom.blur();
+    // Set the text content to be the text you wished to copy.
+    copyFrom.textContent = text;
 
-  // Remove the textbox field from the document.body, so no other JavaScript nor
-  // other elements can get access to this.
-  document.body.removeChild(copyFrom);
-};
+    // Append the textbox field into the body as a child.
+    // "execCommand()" only works when there exists selected text, and the text is inside
+    // document.body (meaning the text is part of a valid rendered HTML element).
+    internalDocument.body.appendChild(copyFrom);
 
-function getNewRoute(urlObj, newTuples) {
-  return `${urlObj.info.pathname}${urlObj.info.urlDivider}${newTuples.join('&')}`;
-}
+    // Select all the text!
+    copyFrom.select();
 
-export default {
-  copy,
-  injectContent,
-  getSplitElement,
-  parseURL,
-  printEmptyMsg,
-  printTable,
-  getNewRoute,
-  urlInfo,
+    // Execute command
+    internalDocument.execCommand('copy');
+
+    // (Optional) De-select the text using blur().
+    copyFrom.blur();
+
+    // Remove the textbox field from the document.body, so no other JavaScript nor
+    // other elements can get access to this.
+    internalDocument.body.removeChild(copyFrom);
+  };
+
+  const getNewRoute = (urlObj, newTuples) =>
+    `${urlObj.info.pathname}${urlObj.info.urlDivider}${newTuples.join('&')}`;
+
+  return {
+    copy,
+    injectContent,
+    getSplitElement,
+    parseURL,
+    printEmptyMsg,
+    printTable,
+    getNewRoute,
+    urlInfo,
+  };
 };
