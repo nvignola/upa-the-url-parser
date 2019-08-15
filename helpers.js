@@ -4,8 +4,10 @@ import iconsRender from './iconsRender';
 // eslint-disable-next-line no-undef
 
 export default (document) => {
+  const internalDocument = document;
+
   const injectContent = (content) => {
-    document.querySelector('#container').innerHTML = content;
+    internalDocument.querySelector('#container').innerHTML = content;
   };
 
   const getSplitElement = (url) => {
@@ -104,7 +106,7 @@ export default (document) => {
 
   const copy = (text) => {
     // Create a textbox field where we can insert text to.
-    const copyFrom = document.createElement('textarea');
+    const copyFrom = internalDocument.createElement('textarea');
 
     // Set the text content to be the text you wished to copy.
     copyFrom.textContent = text;
@@ -112,20 +114,20 @@ export default (document) => {
     // Append the textbox field into the body as a child.
     // "execCommand()" only works when there exists selected text, and the text is inside
     // document.body (meaning the text is part of a valid rendered HTML element).
-    document.body.appendChild(copyFrom);
+    internalDocument.body.appendChild(copyFrom);
 
     // Select all the text!
     copyFrom.select();
 
     // Execute command
-    document.execCommand('copy');
+    internalDocument.execCommand('copy');
 
     // (Optional) De-select the text using blur().
     copyFrom.blur();
 
     // Remove the textbox field from the document.body, so no other JavaScript nor
     // other elements can get access to this.
-    document.body.removeChild(copyFrom);
+    internalDocument.body.removeChild(copyFrom);
   };
 
   const getNewRoute = (urlObj, newTuples) =>
