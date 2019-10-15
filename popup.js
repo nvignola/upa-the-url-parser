@@ -52,11 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateButton = document.querySelector('#updateButton');
     const copyButton = document.querySelector('#copyButton');
 
-    if (copyButton) {
-      copyButton.addEventListener('click', () => helpers.copy(tabUrl));
-    }
-    if (updateButton) {
-      updateButton.addEventListener('click', () => {
+    copyButton && copyButton.addEventListener('click', () => helpers.copy(tabUrl));
+
+    updateButton
+      && updateButton.addEventListener('click', () => {
         const params = document.querySelectorAll('[refs="params"]');
         const newTuples = [];
 
@@ -70,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
           url: helpers.getNewRoute(urlInfo, newTuples),
         });
       });
-    }
+
     container.addEventListener('click', (e) => {
       if (e.target.matches('.copy')) {
         helpers.copy(e.target.dataset.copy);
