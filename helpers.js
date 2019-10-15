@@ -40,29 +40,23 @@ export default (document) => {
     return arrKeyValue;
   };
 
-  const printTable = (arr) => {
-    const tableContent = arr.reduce(
-      (acc, value, index) =>
-        acc.concat(`
-      <tr data-index="${index}">
+  const getRow = (item, index) => `<tr data-index="${index}">
         <td>
-        <input ref="js-${value.key}" style="width: 100%" value="${value.key}" type="text">
+        <input ref="js-${item.key}" value="${item.key}" type="text">
         </td>
         <td>
-        <input refs="params" style="width: 100%" data-key="${value.key}" value="${
-  value.value
-}" type="text">
+        <input refs="params" data-key="${item.key}" value="${item.value}" type="text">
           </td>
         <td class="actions-container">
           <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${
-    value.key
-  }=${value.value}`}">${iconsRender.renderCopyIcon()}</button>
+    item.key
+  }=${item.value}`}">${iconsRender.renderCopyIcon()}</button>
           <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${iconsRender.renderDeleteIcon()}</button>
         </td>
-      </tr>
-  `),
-      '',
-    );
+      </tr>`;
+
+  const printTable = (arr) => {
+    const tableContent = arr.reduce((acc, item, index) => acc.concat(getRow(item, index)), '');
 
     const TABLE = `
     <table id="url-parsed-table" class="pure-table pure-table-striped">
@@ -142,5 +136,6 @@ export default (document) => {
     printTable,
     getNewRoute,
     urlInfo,
+    getRow,
   };
 };

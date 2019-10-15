@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('#container');
     const updateButton = document.querySelector('#updateButton');
     const copyButton = document.querySelector('#copyButton');
+    const addRow = document.querySelector('#addRow');
 
     if (copyButton) {
       copyButton.addEventListener('click', () => helpers.copy(tabUrl));
@@ -81,6 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
           row.parentElement.removeChild(row);
         }
       }
+    });
+    addRow.addEventListener('click', (e) => {
+      const newValue = { value: 'bar', key: 'pop' };
+      const rowsLength = document.querySelectorAll('tbody > tr').length;
+      const newDataIndex = rowsLength + 1;
+      const fragment = document.createDocumentFragment();
+      const tr = document.createElement('tr');
+      tr.innerHTML = helpers.getRow(newValue, newDataIndex);
+      console.log('>>>', tr);
+      fragment.appendChild(tr);
+      document.querySelector('#url-parsed-table tbody').appendChild(fragment);
     });
   });
 });
