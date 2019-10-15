@@ -7,15 +7,17 @@ let URL_INFO = null;
 
 let helpers = null;
 
+const containerId = `container`;
+
 beforeAll(() => {
   const {
     window: { document },
   } = new JSDOM(`
-  <div id="container"></div>
+  <div id="${containerId}"></div>
   `);
 
   helpers = initHelpers(document);
-  TARGET_EL = document.querySelector('#container');
+  TARGET_EL = document.querySelector(`#${containerId}`);
   URL_INFO = helpers.urlInfo('http://www.abc.com#asd=1?foo=3')();
 });
 
