@@ -27,7 +27,7 @@
     "codecov": "^3.6.1",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^1.0.0",
-    "eslint": "^5.4.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-webpack": "^0.8.4",
     "eslint-plugin-import": "^2.18.2",
