@@ -17,11 +17,14 @@ const extractCss = new MiniCssExtractPlugin({
 });
 
 module.exports = {
-  entry: './popup.js',
+  entry: {
+    popup: './popup.js',
+    background: './background.js'
+  },
   mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'popup.js',
+    filename: '[name].js',
   },
   optimization: {
     minimize: true,

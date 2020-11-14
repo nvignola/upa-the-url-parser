@@ -1,43 +1,53 @@
 import iconsRender from './iconsRender';
 
+const parseURL = queryString => {
+  const QS_DIVIDER = "&";
+  const TUPLE_DIVIDER = "=";
+
+  const arrKeyValue = queryString
+    ? decodeURI(queryString)
+        .split(QS_DIVIDER)
+        .map(tuple => {
+          const [key, value] = tuple.split(TUPLE_DIVIDER);
+
+          return {
+            key,
+            value
+          };
+        })
+    : [];
+
+  return arrKeyValue;
+};
+
+const getSplitElement = url => {
+  const SPLIT_IDENTIFIERS = ["?", "#"];
+
+  // TODO
+  // - Implement custom identifier
+  return SPLIT_IDENTIFIERS.find(identifier => url.includes(identifier));
+};
+
 /* eslint-disable implicit-arrow-linebreak */
-// eslint-disable-next-line no-undef
+export const urlInfo = (plainUrl) => {
+  const qs = getSplitElement(plainUrl);
+  const [pathname, queryString = ''] = plainUrl.split(qs);
+  const parsedQueryString = parseURL(queryString);
+
+  return {
+    url: plainUrl,
+    pathname,
+    queryString,
+    urlDivider: qs,
+    parsedQueryString
+  };
+};
 
 export default (document) => {
   const internalDocument = document;
 
   const injectContent = (content) => {
     internalDocument.querySelector('#container').innerHTML = content;
-  };
-
-  const getSplitElement = (url) => {
-    const SPLIT_IDENTIFIERS = ['?', '#'];
-
-    // TODO
-    // - Implement custom identifier
-    return SPLIT_IDENTIFIERS.find(identifier => url.includes(identifier));
-  };
-
-  const parseURL = (urlObj = {}) => {
-    const QS_DIVIDER = '&';
-    const TUPLE_DIVIDER = '=';
-    const {
-      info: { queryString },
-    } = urlObj;
-    const arrKeyValue = queryString
-      ? decodeURI(queryString)
-        .split(QS_DIVIDER)
-        .map((tuple) => {
-          const [key, value] = tuple.split(TUPLE_DIVIDER);
-
-          return {
-            key,
-            value,
-          };
-        })
-      : [];
-
-    return arrKeyValue;
   };
 
   const printTable = (arr) => {
@@ -84,26 +94,6 @@ export default (document) => {
 
   const printEmptyMsg = () => '<strong>Url without query string.</strong>';
 
-  const urlInfo = (plainUrl) => {
-    const SPLIT_IDENTIFIERS = ['?', '#'];
-
-    // TODO
-    // - Implement custom identifier
-    const qs = SPLIT_IDENTIFIERS.find(identifier => plainUrl.includes(identifier));
-    const [pathname, queryString] = plainUrl.split(qs);
-
-    const info = {
-      url: plainUrl,
-      pathname,
-      queryString,
-      urlDivider: qs,
-    };
-
-    return () => ({
-      info,
-    });
-  };
-
   const copy = (text) => {
     // Create a textbox field where we can insert text to.
     const copyFrom = internalDocument.createElement('textarea');
@@ -131,7 +121,7 @@ export default (document) => {
   };
 
   const getNewRoute = (urlObj, newTuples) =>
-    `${urlObj.info.pathname}${urlObj.info.urlDivider}${newTuples.join('&')}`;
+    `${urlObj.pathname}${urlObj.urlDivider}${newTuples.join('&')}`;
 
   return {
     copy,

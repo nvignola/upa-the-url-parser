@@ -18,7 +18,7 @@ beforeAll(() => {
 
   helpers = initHelpers(document);
   TARGET_EL = document.querySelector(`#${containerId}`);
-  URL_INFO = helpers.urlInfo('http://www.abc.com#asd=1?foo=3')();
+  URL_INFO = helpers.urlInfo('http://www.abc.com#asd=1?foo=3');
 });
 
 describe('getSplitElement()', () => {
@@ -41,13 +41,15 @@ describe('getSplitElement()', () => {
 describe('parseUrl()', () => {
   test('url without query string', () => {
     const url = 'www.foo.url/home';
-    const urlInfo = helpers.urlInfo(url)();
-    expect(helpers.parseURL(urlInfo)).toEqual([]);
+    const urlInfo = helpers.urlInfo(url);
+    console.log(helpers.urlInfo(url));
+    expect(helpers.parseURL(urlInfo.queryString)).toEqual([]);
   });
 
   test('url with query string using "?"', () => {
     const url = 'www.foo.url/home?param1=1&param2=2&param3=3';
-    const urlInfo = helpers.urlInfo(url)();
+    const urlInfo = helpers.urlInfo(url);
+
     const result = [
       {
         key: 'param1',
@@ -63,7 +65,7 @@ describe('parseUrl()', () => {
       },
     ];
 
-    expect(helpers.parseURL(urlInfo)).toEqual(result);
+    expect(helpers.parseURL(urlInfo.queryString)).toEqual(result);
   });
 });
 
