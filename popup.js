@@ -43,9 +43,11 @@ function getCurrentTabUrl(callback) {
 
 document.addEventListener('DOMContentLoaded', () => {
   getCurrentTabUrl((tabUrl) => {
-    const urlInfo = helpers.urlInfo(tabUrl)();
-    const url = helpers.parseURL(urlInfo);
-    const content = url.length ? helpers.printTable(url) : helpers.printEmptyMsg();
+    const urlInfo = helpers.urlInfo(tabUrl);
+
+    const content = urlInfo.parsedQueryString.length
+      ? helpers.printTable(urlInfo.parsedQueryString)
+      : helpers.printEmptyMsg();
     helpers.injectContent(content);
 
     const container = document.querySelector('#container');
