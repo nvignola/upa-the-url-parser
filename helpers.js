@@ -1,4 +1,4 @@
-import iconsRender from './iconsRender';
+import iconsRender from "./iconsRender";
 
 const parseURL = queryString => {
   const QS_DIVIDER = "&";
@@ -29,9 +29,9 @@ const getSplitElement = url => {
 };
 
 /* eslint-disable implicit-arrow-linebreak */
-export const urlInfo = (plainUrl) => {
+export const urlInfo = plainUrl => {
   const qs = getSplitElement(plainUrl);
-  const [pathname, queryString = ''] = plainUrl.split(qs);
+  const [pathname, queryString = ""] = plainUrl.split(qs);
   const parsedQueryString = parseURL(queryString);
 
   return {
@@ -43,36 +43,38 @@ export const urlInfo = (plainUrl) => {
   };
 };
 
-export default (document) => {
+export default document => {
   const internalDocument = document;
 
-  const injectContent = (content) => {
-    internalDocument.querySelector('#container').innerHTML = content;
+  const injectContent = content => {
+    internalDocument.querySelector("#container").innerHTML = content;
   };
 
-  const printTable = (arr) => {
-    const tableContent = arr.reduce(
-      (acc, value, index) =>
-        acc.concat(`
+  const printTable = arr => {
+    const tableContent = arr
+      .filter(value => value.key)
+      .reduce(
+        (acc, value, index) =>
+          acc.concat(`
       <tr data-index="${index}">
         <td>
-        <input ref="js-${value.key}" style="width: 100%" value="${value.key}" type="text">
+        <input ref="js-${value.key}" style="width: 100%" value="${
+            value.key
+          }" type="text">
         </td>
         <td>
-        <input refs="params" style="width: 100%" data-key="${value.key}" value="${
-  value.value
-}" type="text">
+        <input refs="params" style="width: 100%" data-key="${
+          value.key
+        }" value="${decodeURIComponent(value.value)}" type="text">
           </td>
         <td class="actions-container">
-          <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${
-    value.key
-  }=${value.value}`}">${iconsRender.renderCopyIcon()}</button>
+          <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${value.key}=${value.value}`}">${iconsRender.renderCopyIcon()}</button>
           <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${iconsRender.renderDeleteIcon()}</button>
         </td>
       </tr>
   `),
-      '',
-    );
+        ""
+      );
 
     const TABLE = `
     <table id="url-parsed-table" class="pure-table pure-table-striped">
@@ -92,11 +94,11 @@ export default (document) => {
     return TABLE;
   };
 
-  const printEmptyMsg = () => '<strong>Url without query string.</strong>';
+  const printEmptyMsg = () => "<strong>Url without query string.</strong>";
 
-  const copy = (text) => {
+  const copy = text => {
     // Create a textbox field where we can insert text to.
-    const copyFrom = internalDocument.createElement('textarea');
+    const copyFrom = internalDocument.createElement("textarea");
 
     // Set the text content to be the text you wished to copy.
     copyFrom.textContent = text;
@@ -110,7 +112,7 @@ export default (document) => {
     copyFrom.select();
 
     // Execute command
-    internalDocument.execCommand('copy');
+    internalDocument.execCommand("copy");
 
     // (Optional) De-select the text using blur().
     copyFrom.blur();
@@ -121,7 +123,7 @@ export default (document) => {
   };
 
   const getNewRoute = (urlObj, newTuples) =>
-    `${urlObj.pathname}${urlObj.urlDivider}${newTuples.join('&')}`;
+    `${urlObj.pathname}${urlObj.urlDivider}${newTuples.join("&")}`;
 
   return {
     copy,
@@ -131,6 +133,6 @@ export default (document) => {
     printEmptyMsg,
     printTable,
     getNewRoute,
-    urlInfo,
+    urlInfo
   };
 };

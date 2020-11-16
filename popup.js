@@ -1,7 +1,7 @@
-import './pure.css';
-import './custom.css';
+import "./pure.css";
+import "./custom.css";
 
-import initHelpers from './helpers';
+import initHelpers from "./helpers";
 
 // eslint-disable-next-line no-undef
 const { document } = window;
@@ -18,10 +18,10 @@ function getCurrentTabUrl(callback) {
   // https://developer.chrome.com/extensions/tabs#method-query
   const queryInfo = {
     active: true,
-    currentWindow: true,
+    currentWindow: true
   };
 
-  chrome.tabs.query(queryInfo, (tabs) => {
+  chrome.tabs.query(queryInfo, tabs => {
     // chrome.tabs.query invokes the callback with a list of tabs that match the
     // query. When the popup is opened, there is certainly a window and at least
     // one tab, so we can safely assume that |tabs| is a non-empty array.
@@ -41,8 +41,8 @@ function getCurrentTabUrl(callback) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  getCurrentTabUrl((tabUrl) => {
+document.addEventListener("DOMContentLoaded", () => {
+  getCurrentTabUrl(tabUrl => {
     const urlInfo = helpers.urlInfo(tabUrl);
 
     const content = urlInfo.parsedQueryString.length
@@ -50,34 +50,38 @@ document.addEventListener('DOMContentLoaded', () => {
       : helpers.printEmptyMsg();
     helpers.injectContent(content);
 
-    const container = document.querySelector('#container');
-    const updateButton = document.querySelector('#updateButton');
-    const copyButton = document.querySelector('#copyButton');
+    const container = document.querySelector("#container");
+    const updateButton = document.querySelector("#updateButton");
+    const copyButton = document.querySelector("#copyButton");
 
-    copyButton && copyButton.addEventListener('click', () => helpers.copy(tabUrl));
+    copyButton &&
+      copyButton.addEventListener("click", () => helpers.copy(tabUrl));
 
-    updateButton
-      && updateButton.addEventListener('click', () => {
+    updateButton &&
+      updateButton.addEventListener("click", () => {
         const params = document.querySelectorAll('[refs="params"]');
         const newTuples = [];
 
-        params.forEach((tuple) => {
-          const key = document.querySelector(`[ref="js-${tuple.dataset.key}"]`).value;
+        params.forEach(tuple => {
+          const key = document.querySelector(`[ref="js-${tuple.dataset.key}"]`)
+            .value;
           const { value } = tuple;
-          newTuples.push(`${key}=${value}`);
+          newTuples.push(`${key}=${encodeURIComponent(value)}`);
         });
 
         chrome.tabs.update({
-          url: helpers.getNewRoute(urlInfo, newTuples),
+          url: helpers.getNewRoute(urlInfo, newTuples)
         });
       });
 
-    container.addEventListener('click', (e) => {
-      if (e.target.matches('.copy')) {
+    container.addEventListener("click", e => {
+      if (e.target.matches(".copy")) {
         helpers.copy(e.target.dataset.copy);
       }
-      if (e.target.matches('.remove')) {
-        const row = container.querySelector(`tr[data-index="${e.target.dataset.index}"]`);
+      if (e.target.matches(".remove")) {
+        const row = container.querySelector(
+          `tr[data-index="${e.target.dataset.index}"]`
+        );
         if (row) {
           row.parentElement.removeChild(row);
         }
