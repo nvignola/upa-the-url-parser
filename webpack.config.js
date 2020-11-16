@@ -1,59 +1,59 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const htmlPlugin = new HtmlWebpackPlugin({
-  filename: 'popup.html',
-  template: 'popup.html',
+  filename: "popup.html",
+  template: "popup.html"
 });
-const copyPlugin = new CopyWebpackPlugin([
-  { from: 'manifest.json', to: 'manifest.json' },
-  { from: 'icon.png', to: 'icon.png' },
-]);
+const copyPlugin = new CopyWebpackPlugin({
+  patterns: [
+    { from: "manifest.json", to: "manifest.json" },
+    { from: "icon.png", to: "icon.png" }
+  ]
+});
 const extractCss = new MiniCssExtractPlugin({
-  filename: '[name].css',
-  chunkFilename: '[id].css',
+  filename: "[name].css",
+  chunkFilename: "[id].css"
 });
 
 module.exports = {
   entry: {
-    popup: './popup.js',
-    background: './background.js'
+    popup: "./popup.js",
+    background: "./background.js"
   },
-  mode: 'development',
+  mode: "development",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js"
   },
   optimization: {
-    minimize: true,
+    minimize: true
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: "babel-loader"
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          'css-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader',
-      },
-    ],
+        loader: "svg-inline-loader"
+      }
+    ]
   },
   stats: {
-    colors: true,
+    colors: true
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   plugins: [htmlPlugin, copyPlugin, extractCss],
+  optimization: {
+    minimize: true
+  }
 };
