@@ -12,12 +12,11 @@ function updateBadge() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(
     arrayOfTabs
   ) {
-    const tab = arrayOfTabs[0];
-    const parsedQueryString = urlInfo(tab.url).parsedQueryString;
-    // the return value is an array
-    var activeTab = arrayOfTabs[0];
+    const [activeTab] = arrayOfTabs;
 
     if (!activeTab) return;
+
+    const parsedQueryString = urlInfo(activeTab.url).parsedQueryString;
     // compute number for badge for current tab's url
     chrome.browserAction.setBadgeText({
       text: parsedQueryString.length.toString(),
