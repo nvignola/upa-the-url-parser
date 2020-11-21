@@ -59,13 +59,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateButton &&
       updateButton.addEventListener("click", () => {
-        const params = document.querySelectorAll('[refs="params"]');
+        const params = document.querySelectorAll(
+          '[refs="params"]:not(:disabled)'
+        );
         const newTuples = [];
 
         params.forEach(tuple => {
-          const key = document.querySelector(`[ref="js-${tuple.dataset.key}"]`)
-            .value;
+          const el = document.querySelector(`[ref="js-${tuple.dataset.key}"]`);
+          const key = el.value;
           const { value } = tuple;
+
           newTuples.push(`${key}=${encodeURIComponent(value)}`);
         });
 
@@ -84,6 +87,22 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         if (row) {
           row.parentElement.removeChild(row);
+        }
+      }
+    });
+
+    container.addEventListener("change", e => {
+      if (e.target.matches("input.toggle")) {
+        const el = container.querySelector(
+          `tr[data-index="${e.target.dataset.index}"]`
+        );
+
+        if (!e.target.checked) {
+          el.querySelectorAll(".input").forEach(i => (i.disabled = true));
+          el.classList.add('disabled')
+        } else {
+          el.querySelectorAll(".input").forEach(i => (i.disabled = false));
+          el.classList.remove("disabled");
         }
       }
     });

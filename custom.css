@@ -9,6 +9,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  margin: 0 -10px;
 }
 
 .title {
@@ -17,13 +18,10 @@ body {
   overflow: hidden;
 }
 
-.clearfix:after {
-  clear: both;
-}
-.clearfix:before,
-.clearfix:after {
-  content: " ";
-  display: table;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 table {
@@ -62,7 +60,29 @@ button svg g {
 
 .actions-container {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actions-container span {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.actions-container span:hover {
+  border-radius: 25%;
+}
+.actions-container .copy:hover {
+  background-color: #ffd22f;
+}
+.actions-container .remove:hover {
+  background-color: #ff9e9e;
+}
+.actions-container span:hover svg {
+  transform: scale(1.25);
+}
+
+.actions-container svg {
+  width: 1rem;
 }
 
 .btn-action {
@@ -76,10 +96,12 @@ button svg g {
 .btn-success,
 .btn-error,
 .btn-warning,
-.btn-secondary {
+.btn-secondary,
+.btn-info {
   color: white;
-  border-radius: 4px;
+  border-radius: 2px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .btn-success {
@@ -97,6 +119,23 @@ button svg g {
 .btn-secondary {
   background: rgb(66, 184, 221); /* this is a light blue */
 }
+.btn-secondary:hover {
+  background-color: #20caff;
+}
+
+.btn-info {
+  background: #a0a0a0;
+}
+.btn-info:hover {
+  background: #777777;
+}
+
+.btn-info:hover,
+.btn-secondary:hover {
+  background-image: none;
+}
+
+
 .btn-xsmall {
   font-size: 70%;
 }
@@ -111,4 +150,72 @@ button svg g {
 
 .btn-xlarge {
   font-size: 125%;
+}
+
+/*
+  Table
+-----------------*/
+.pure-table {
+  border: none;
+}
+
+.pure-table thead {
+  background-color: #0078e7;
+  color: #f2f2f2;
+}
+
+.pure-table th,
+.pure-table td {
+  border-left: none;
+}
+
+.pure-table th:last-child,
+.pure-table td:last-child {
+  border-left: 1px solid #cbcbcb;
+}
+
+.pure-table-striped tr:nth-child(2n-1) td {
+    background-color: #f0f5ff;
+}
+
+.pure-table-striped tr.disabled td {
+    background-color: #efefef;
+}
+.pure-table-striped tr.disabled td input {
+    border: 2px solid #efefef;
+}
+
+/*
+  Checkbox
+-------------------------*/
+input[type=checkbox] {
+  transform: scale(1);
+}
+
+input[type=checkbox] {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  visibility: hidden;
+  font-size: 0.7rem;
+}
+
+input[type=checkbox]:after {
+  content: "\2714";
+  background-color: #fff;
+  padding: 0 2px;
+  color: #0bbd00;
+  visibility: visible;
+  border: 1px solid #158600;
+}
+
+input[type=checkbox]:checked:after {
+  content: "\2714";
+}
+
+input[type=checkbox]:not(:checked):after {
+  /* content: "\274C"; */
+  color: #a1a1a1;
+  border: 1px solid #5e5d5d;
 }

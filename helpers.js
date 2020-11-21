@@ -58,18 +58,19 @@ export default document => {
           acc.concat(`
       <tr data-index="${index}">
         <td>
-        <input ref="js-${value.key}" style="width: 100%" value="${
+          <input class="input" ref="js-${
             value.key
-          }" type="text">
+          }" style="width: 100%" value="${value.key}" type="text">
         </td>
         <td>
-        <input refs="params" style="width: 100%" data-key="${
+        <input class="input" refs="params" style="width: 100%" data-key="${
           value.key
         }" value="${decodeURIComponent(value.value)}" type="text">
           </td>
         <td class="actions-container">
-          <button title="Copy [parameter]=[value] tuple" class="pure-button copy btn-success btn-action" data-copy=${`${value.key}=${value.value}`}">${iconsRender.renderCopyIcon()}</button>
-          <button title="Remove parameter" class="pure-button remove btn-error btn-action" data-index="${index}">${iconsRender.renderDeleteIcon()}</button>
+          <input class="toggle" type="checkbox" data-index="${index}" checked />
+          <span title="Copy [parameter]=[value] tuple" class="copy" data-copy="${`${value.key}=${value.value}`}">${iconsRender.renderCopyIcon()}</span>
+          <span title="Remove parameter" class="remove" data-index="${index}">${iconsRender.renderDeleteIcon()}</span>
         </td>
       </tr>
   `),
