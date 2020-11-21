@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!e.target.checked) {
           el.querySelectorAll(".input").forEach(i => (i.disabled = true));
-          el.classList.add('disabled')
+          el.classList.add("disabled");
         } else {
           el.querySelectorAll(".input").forEach(i => (i.disabled = false));
           el.classList.remove("disabled");

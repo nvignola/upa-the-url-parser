@@ -82,6 +82,7 @@ button svg g {
 }
 
 .actions-container svg {
+  pointer-events: none;
   width: 1rem;
 }
 
@@ -135,7 +136,6 @@ button svg g {
   background-image: none;
 }
 
-
 .btn-xsmall {
   font-size: 70%;
 }
@@ -157,6 +157,7 @@ button svg g {
 -----------------*/
 .pure-table {
   border: none;
+  border-bottom: 1px solid #cbcbcb;
 }
 
 .pure-table thead {
@@ -175,24 +176,24 @@ button svg g {
 }
 
 .pure-table-striped tr:nth-child(2n-1) td {
-    background-color: #f0f5ff;
+  background-color: #f0f5ff;
 }
 
 .pure-table-striped tr.disabled td {
-    background-color: #efefef;
+  background-color: #efefef;
 }
 .pure-table-striped tr.disabled td input {
-    border: 2px solid #efefef;
+  border: 2px solid #efefef;
 }
 
 /*
   Checkbox
 -------------------------*/
-input[type=checkbox] {
+input[type="checkbox"] {
   transform: scale(1);
 }
 
-input[type=checkbox] {
+input[type="checkbox"] {
   position: relative;
   width: 15px;
   height: 15px;
@@ -201,7 +202,7 @@ input[type=checkbox] {
   font-size: 0.7rem;
 }
 
-input[type=checkbox]:after {
+input[type="checkbox"]:after {
   content: "\2714";
   background-color: #fff;
   padding: 0 2px;
@@ -210,11 +211,11 @@ input[type=checkbox]:after {
   border: 1px solid #158600;
 }
 
-input[type=checkbox]:checked:after {
+input[type="checkbox"]:checked:after {
   content: "\2714";
 }
 
-input[type=checkbox]:not(:checked):after {
+input[type="checkbox"]:not(:checked):after {
   /* content: "\274C"; */
   color: #a1a1a1;
   border: 1px solid #5e5d5d;
