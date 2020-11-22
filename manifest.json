@@ -3,7 +3,7 @@
 
   "name": "UPA - The Url Parser",
   "description": "Url parser that works with #. Useful for SPA. Visualize and basic editing.",
-  "version": "1.0",
+  "version": "1.2",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
