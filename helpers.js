@@ -28,6 +28,14 @@ const getSplitElement = url => {
   return SPLIT_IDENTIFIERS.find(identifier => url.includes(identifier));
 };
 
+function getInputTypeByValue(value) {
+  if (!isNaN(value)) {
+    return "number";
+  }
+
+  return "text";
+}
+
 /* eslint-disable implicit-arrow-linebreak */
 export const urlInfo = plainUrl => {
   const qs = getSplitElement(plainUrl);
@@ -54,22 +62,20 @@ export default document => {
     const tableContent = arr
       .filter(value => value.key)
       .reduce(
-        (acc, value, index) =>
+        (acc, { key, value }, index) =>
           acc.concat(`
       <tr data-index="${index}">
         <td>
-          <input class="input" ref="js-${
-            value.key
-          }" style="width: 100%" value="${value.key}" type="text">
+          <input class="input" ref="js-${key}" style="width: 100%" value="${key}" type="text">
         </td>
         <td>
-        <input class="input" refs="params" style="width: 100%" data-key="${
-          value.key
-        }" value="${decodeURIComponent(value.value)}" type="text">
+        <input class="input" refs="params" style="width: 100%" data-key="${key}" value="${decodeURIComponent(
+            value
+          )}" type="${getInputTypeByValue(value)}" />
           </td>
         <td class="actions-container">
           <input class="toggle" type="checkbox" data-index="${index}" checked />
-          <span title="Copy [parameter]=[value] tuple" class="copy" data-copy="${`${value.key}=${value.value}`}">${iconsRender.renderCopyIcon()}</span>
+          <span title="Copy [parameter]=[value] tuple" class="copy" data-copy="${`${key}=${value}`}">${iconsRender.renderCopyIcon()}</span>
           <span title="Remove parameter" class="remove" data-index="${index}">${iconsRender.renderDeleteIcon()}</span>
         </td>
       </tr>
